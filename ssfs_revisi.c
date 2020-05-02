@@ -26,7 +26,7 @@ char *enkripsi(char code[1000]) {
 		if(code[i] != '/') {
 	      		titik = strchr(message, code[i]) - message;
 	        	code[i] = message[(titik + key) % strlen(message)];
-    	}
+    		}
 	}
 	
 	return code;
