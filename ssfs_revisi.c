@@ -10,7 +10,7 @@
 #include <pwd.h>
 #include <grp.h>
 
-static  const  char *dirpath = "/mnt/c/Users/Anisa\ Aurafitri/Documents";
+static  const  char *dirpath = "/Users/Anisa\ Aurafitri/Documents";
 
 char str[1000];
 int i, x;
