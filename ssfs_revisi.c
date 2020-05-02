@@ -10,13 +10,15 @@
 #include <pwd.h>
 #include <grp.h>
 
-static  const  char *dirpath = "/Users/Anisa_Aurafitri/Documents";
+static  const  char *dirpath = "/Users/Anisa Aurafitri/Documents";
 
-char str[1000];
-int i, x;
+char str[1000], tmp_path[1000], oldname[1000], newname[1000];
+int i;
 
 char message[1000] = "9(ku@AW1[Lmvgax6q`5Y2Ry?+sF!^HKQiBXCUSe&0M.b%rI'7d)o4~VfZ*{#:}ETt$3J-zpc]lnh8,GwP_ND|jO";
-int key = 10, titik;
+int key = 10;
+
+int titik;
 
 char *enkripsi(char code[1000]) {
 	
@@ -72,7 +74,7 @@ static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 	char fpath[1000];
 
 	sprintf(lokasi, "%s", path);
-	enkripsi(lokasi);
+//	enkripsi(lokasi);
 	
 	if(strcmp(path,"/") == 0) {
 		path = dirpath;
@@ -93,7 +95,7 @@ static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 	if(dp == NULL)
 		return -errno;
 
-	while((de = readdir(dp)) != NULL) {
+	if((de = readdir(dp)) != NULL && strstr(lokasi, "encv1_") != 0) {
 		struct stat st;
 		memset(&st, 0, sizeof(st));
 		
@@ -101,9 +103,28 @@ static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 		st.st_mode = de->d_type << 12;
 		
 		if(strcmp(de->d_name, ".") != 0 && strcmp(de->d_name, "..") != 0) {
+			char tmp[1000];
+			memset(&tmp, 0, sizeof(tmp));
+			
+			memmove(tmp, de->d_name, strlen(de->d_name)-strlen(get_eks(de->d_name)));
+            enkripsi(tmp);
+            strcat(tmp, get_eks(de->d_name));
+            
+            sprintf(tmp_path, "%s/%s", dirpath, lokasi);
+            sprintf(oldname, "%s/%s", tmp_path, de->d_name);
+            sprintf(newname, "%s/%s", tmp_path, tmp);
+            
+            rename(oldname, newname);
+			
 			if(filler(buf, de->d_name, &st, 0))
 				break;
 		}
+	}
+	else {
+		dekripsi(de->d_name);
+		
+		if(filler(buf, de->d_name, &st, 0))
+			break;
 	}
 
 	closedir(dp);
