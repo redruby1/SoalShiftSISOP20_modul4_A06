@@ -80,3 +80,19 @@ static struct fuse_operations xmp_oper = {
 
 ## Soal 4
 *Log system*
+
+coba revisi
+```FILE *fp = fopen("fs.log", "w");```
+
+untuk membuat file fs.log dan membuka file
+
+```LOG(INFO, )```
+
+log untuk info
+
+```LOG(WARNING, )```
+
+log untuk warning
+	
+```fclose(fp);```
+untuk menutup file
