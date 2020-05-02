@@ -57,7 +57,13 @@ Ketentuan *caesar chiper*
 char message[1000] = "9(ku@AW1[Lmvgax6q`5Y2Ry?+sF!^HKQiBXCUSe&0M.b%rI'7d)o4~VfZ*{#:}ETt$3J-zpc]lnh8,GwP_ND|jO";
 int key = 10;
 ```
-
+Memisahkan *encv1_* dan *encv2_*
+```
+if((de = readdir(dp)) != NULL && strstr(lokasi, "encv1_") != 0) {
+	...
+	...
+}
+```
 Struct dari fuse 
 ```
 static struct fuse_operations xmp_oper = {
