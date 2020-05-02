@@ -24,8 +24,8 @@ char *enkripsi(char code[1000]) {
 	
 	for(i = 0; (i < strlen(code) && code[i] != '\0'); i++) {
 		if(code[i] != '/') {
-	      	titik = strchr(message, code[i]) - message;
-	        code[i] = message[(titik + key) % strlen(message)];
+	      		titik = strchr(message, code[i]) - message;
+	        	code[i] = message[(titik + key) % strlen(message)];
     	}
 	}
 	
@@ -37,7 +37,7 @@ char *dekripsi(char code[1000]) {
 	for(i = 0; (i < strlen(code) && code[i] != '\0'); i++) {
 		if(code[i] != '/') {
 			titik = strchr(message, code[i]) - message;
-        	code[i] = message[(titik + (strlen(message)-key)) % strlen(message)];
+        		code[i] = message[(titik + (strlen(message)-key)) % strlen(message)];
 		}
 	}
 	
@@ -46,8 +46,8 @@ char *dekripsi(char code[1000]) {
 
 char *get_eks(char code[1000]) {
 	const char *dot = strrchr(code, '.');
-    if(!dot || dot == code) return "";
-    return dot;
+    	if(!dot || dot == code) return "";
+    	return dot;
 }
 
 static  int  xmp_getattr(const char *path, struct stat *stbuf) {
@@ -74,7 +74,6 @@ static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 	char fpath[1000];
 
 	sprintf(lokasi, "%s", path);
-//	enkripsi(lokasi);
 	
 	if(strcmp(path,"/") == 0) {
 		path = dirpath;
@@ -110,7 +109,7 @@ static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
             enkripsi(tmp);
             strcat(tmp, get_eks(de->d_name));
             
-            sprintf(tmp_path, "%s/%s", dirpath, lokasi);
+            sprintf(tmp_path, "%s%s", dirpath, lokasi);
             sprintf(oldname, "%s/%s", tmp_path, de->d_name);
             sprintf(newname, "%s/%s", tmp_path, tmp);
             
