@@ -16,36 +16,40 @@
 
 #include <sys/time.h>
 
+char str[100];
+int i, x;
 
-charlist[]="9(ku@AW1[Lmvgax6q`5Y2Ry?+sF!^HKQiBXCUSe&0M.b%rI'7d)o4~VfZ*{#:}ETt$3J-zpc]lnh8,GwP_ND|jO"
+char message[100] = "9(ku@AW1[Lmvgax6q`5Y2Ry?+sF!^HKQiBXCUSe&0M.b%rI'7d)o4~VfZ*{#:}ETt$3J-zpc]lnh8,GwP_ND|jO";
+int key = 10, titik;
 
-static const char *dirpath = "/home/wardah/soal4/";
-
-void enkripsi(char *this, int key)
-{
-
-	int x = 0, ke;
+char *enkripsi(char code[100]) {
 	
-	while(this[x] != '\0')
-	{
-		if(this[x] != '/')
-		{
-			for(i=0; charlist!='\0'; i++)
-			{
-				if(!strcmp(this[x], charlist[i]))
-				{
-					ke = i;
-				}
-			}
-			this[x] = charlist[ke + key];
-		}
-		x++;
+	for(i = 0; (i < strlen(code) && code[i] != '\0'); i++) {
+		if(code[i] != '/') {
+	      	titik = strchr(message, code[i]) - message;
+	        code[i] = message[(titik + key) % strlen(message)];
+    	}
 	}
+	
+	return code;
 }
 
-void dekripsi(char *darithis)
-{
+char *dekripsi(char code[100]) {
+	
+	for(i = 0; (i < strlen(code) && code[i] != '\0'); i++) {
+		if(code[i] != '/') {
+			titik = strchr(message, code[i]) - message;
+        	code[i] = message[(titik + (strlen(message)-key)) % strlen(message)];
+		}
+	}
+	
+	return code;
+}
 
+char *get_eks(char code[100]) {
+	const char *dot = strrchr(code, '.');
+    if(!dot || dot == code) return "";
+    return dot;
 }
 
 static int xmp_mkdir(const char *path, mode_t x)
@@ -79,16 +83,8 @@ static  int  xmp_getattr(const char *path, struct stat *stbuf)
 {
 
 int res;
-char nama[100];
-char pathbaru[100];
 
-sprintf(nama, "%s", path);
-enkripsi(nama);
-
-sprintf(pathbaru, "%s%s", dirpath, nama);
-  
-
-res = lstat(pathbaru, stbuf);
+res = lstat(path, stbuf);
 
 if (res == -1)
 
