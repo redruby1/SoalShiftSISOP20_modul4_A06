@@ -173,4 +173,13 @@ static struct fuse_operations xmp_oper = {
 int  main(int  argc, char *argv[]) {
 	umask(0);
 	return fuse_main(argc, argv, &xmp_oper, NULL);
+		
+//log system
+FILE *fp = fopen("fs.log", "w");
+LOG(INFO, )
+LOG(WARNING, )
+	
+fclose(fp);
 }
+
+
